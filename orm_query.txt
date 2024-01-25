@@ -1,0 +1,63 @@
+from myapp.models import Movie
+
+Movie.objects.create(name="Ozler",language="Malayalam",run_time=120,genre="Thriller",director="Midhun",year=2024,actors="Jayaram")
+Movie.objects.create(name="Neru",language="Malayalam",run_time=120,genre="Drama",director="Jeethu Joseph",year=2023,actors="Mohanlal")
+Movie.objects.create(name="Captain_Miller",language="Tamil",run_time=130,genre="Action",director="Arun",year=2024,actors="Dhanush")
+Movie.objects.create(name="Hanuman",language="Telungu",run_time=140,genre="Adventure",director="Prashand",year=2024,actors="Teja")
+Movie.objects.create(name="12th Fail",language="Hindi",run_time=120,genre="Drama",director="Vikrand",year=2023,actors="Vidu Vinod")
+
+
+---->For Viewing the Movie List<------
+qs=Movie.objects.all()
+qs
+
+--->For Viewing a Specific Movie<-----
+qs=Movie.objects.get(id=2) 
+qs
+
+qs=Movie.objects.filter(language="Malayalam")
+qs
+
+---->ORM Query for Updating Movie objects<----
+
+Movie.objects.filter(id=4).update(genre="Action")
+
+---->ORM Query for Deleting Movie objects<----
+
+Movie.objects.filter(id=4).delete()
+
+--->Field Look up<---
+
+qs=Movie.objects.filter(year<2024)---This code doesnot work in django
+
+<   __lt (Less Than)
+<=   __lte (Less Than or Equal To)
+>   __gt (Greater Than)
+>=   __gte (Greater Than or Equal To)
+
+qs=Movie.objects.filter(year__lt=2024)
+qs=Movie.objects.filter(year__gte=1999,year__lte=2024)
+
+
+---->runtime!=130<-----
+
+qs=Movie.objects.exclude(run_time=130)
+qs=Movie.objects.exclude(language="Telungu") 
+
+
+----->Orm query for listing all genre
+
+qs=Movie.objects.all().values_list("genre",flat=True).distinct()
+
+<h1>Movies</h1>
+    {%for m in data%}
+    {{m.name}}
+    {{m.language}}
+    {{m.director}}
+    {{m.actors}}
+    {{m.genre}}
+    {{m.run_time}}
+    {{m.year}}
+
+    <hr>
+    {%endfor%}
